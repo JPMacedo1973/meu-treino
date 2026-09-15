@@ -1,0 +1,14 @@
+MEU TREINO
+Aplicação web para telemóvel baseada no plano fornecido.
+
+Funcionalidades:
+- Upper 1, Lower 1 e Full Body
+- Registo de carga, repetições e séries concluídas
+- Botão Seguinte/Anterior
+- Cronómetro de descanso de 60 segundos
+- Guarda o treino no próprio dispositivo
+- Histórico das sessões terminadas
+- Funciona offline depois de instalada/aberta através de um servidor web
+
+Para testar num computador, abra index.html.
+Para instalar como app no Android, coloque estes ficheiros num alojamento HTTPS e abra o endereço no Chrome; depois escolha "Adicionar ao ecrã principal" / "Instalar aplicação".
