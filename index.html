@@ -1,103 +1,47 @@
 <!doctype html>
 <html lang="pt">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#075985">
 <link rel="manifest" href="manifest.json">
 <title>Meu Treino</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f1f5f9;font-family:system-ui,-apple-system,sans-serif;color:#0f172a}
+*{box-sizing:border-box}
+body{margin:0;background:#f1f5f9;font-family:system-ui,-apple-system,sans-serif;color:#0f172a}
 header{background:#075985;color:white;padding:18px 16px;text-align:center;position:sticky;top:0;z-index:3}
-header h1{margin:0;font-size:22px}.wrap{max-width:620px;margin:auto;padding:16px}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}.tab{border:0;border-radius:10px;padding:12px 4px;font-weight:700;background:#dbeafe;color:#075985}.tab.active{background:#075985;color:#fff}
-.card{background:white;border-radius:18px;padding:20px;box-shadow:0 4px 18px #0001}.progress{height:8px;background:#e2e8f0;border-radius:10px;overflow:hidden}.progress>div{height:100%;background:#0284c7}
-.small{color:#64748b;font-size:14px}.exercise{font-size:27px;margin:14px 0 4px}.target{font-size:17px;font-weight:700;color:#075985}
+header h1{margin:0;font-size:22px}
+.wrap{max-width:620px;margin:auto;padding:16px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.tab{border:0;border-radius:10px;padding:12px 4px;font-weight:700;background:#dbeafe;color:#075985}
+.tab.active{background:#075985;color:#fff}
+.card{background:white;border-radius:18px;padding:20px;box-shadow:0 4px 18px #0001}
+.progress{height:8px;background:#e2e8f0;border-radius:10px;overflow:hidden}
+.progress>div{height:100%;background:#0284c7}
+.small{color:#64748b;font-size:14px}
+.exercise{font-size:27px;margin:14px 0 4px}
+.target{font-size:17px;font-weight:700;color:#075985}
 .exercise-img{display:block;width:100%;max-height:260px;object-fit:contain;margin:14px auto 6px;border-radius:14px;background:#f8fafc}
-.set{display:grid;grid-template-columns:40px 1fr 1fr 50px;gap:8px;align-items:center;margin-top:12px}.set input{width:100%;padding:12px 8px;border:1px solid #cbd5e1;border-radius:10px;font-size:17px;text-align:center}.check{width:42px;height:42px}
+
+.previous{
+ margin-top:14px;
+ padding:13px;
+ background:#f0f9ff;
+ border:1px solid #bae6fd;
+ border-radius:12px
+}
+.previous-title{font-weight:800;color:#075985;margin-bottom:6px}
+.previous-row{margin:3px 0}
+.previous-date{font-size:12px;color:#64748b;margin-top:6px}
+
+.set{display:grid;grid-template-columns:40px 1fr 1fr 50px;gap:8px;align-items:center;margin-top:12px}
+.set input{width:100%;padding:12px 8px;border:1px solid #cbd5e1;border-radius:10px;font-size:17px;text-align:center}
+.check{width:42px;height:42px}
 .labels{display:grid;grid-template-columns:40px 1fr 1fr 50px;gap:8px;text-align:center;margin-top:18px;color:#64748b;font-size:12px}
-.actions{display:grid;grid-template-columns:1fr 1.4fr;gap:10px;margin-top:20px}.btn{border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:800}.next{background:#16a34a;color:white}.prev{background:#e2e8f0}
-.timer{text-align:center;margin:14px 0 0;font-size:15px}.timer strong{font-size:27px;color:#075985}.history{margin-top:16px}.history button{width:100%;padding:12px;border:0;border-radius:10px;background:#fff;color:#075985;font-weight:700}
-.done{text-align:center;padding:25px}.done h2{font-size:28px;color:#16a34a}.reset{background:#075985;color:white;width:100%;margin-top:12px}
-.note{margin:8px 0 0;color:#64748b}
-</style></head>
-<body>
-<header><h1>🏋️ Meu Treino</h1></header>
-<div class="wrap">
-<div id="tabs" class="tabs"></div>
-<div id="app"></div>
-<div class="history"><button onclick="showHistory()">📋 Ver histórico de treinos</button></div>
-</div>
-<script>
-const workouts = {"Upper - 1": [["Lat Pull Down", "2", "8-10", "Pega normal"], ["Supino inclinado Máquina", "2", "8-10", "Maq discos Bodytone"], ["T-Bar Row", "3", "12", ""], ["Tríceps Corda nos Cabos", "2", "10", ""], ["Rear Delt Flyes", "3", "12", ""], ["Bíceps no banco a 60°", "2", "8-10", ""]], "Lower - 1": [["Adutora", "2", "8", ""], ["Hack Squat", "2", "10", ""], ["Leg Press 45°", "2", "10", ""], ["Leg Extensions", "2", "15", ""], ["Leg Press Unilateral", "2", "8", "Leg Press horizontal Fittech"], ["Gémeos sentada", "2", "10", ""]], "Full Body": [["Puxada Alta - Pega Neutra", "3", "10", ""], ["Supino reto máquina", "3", "10", "Maq Bodytone"], ["Leg Press Horizontal", "2", "8", ""], ["Elevações Laterais", "3", "10", ""], ["Leg Curl deitada", "2", "8", ""], ["Tríceps na máquina com barra", "2", "8", "Super série"], ["Bíceps com barra", "2", "8", "Super série"]]};
-
-const exerciseImages = {
- "Lat Pull Down":"images/lat-pull-down.jpg",
- "Supino inclinado Máquina":"images/supino-inclinado.jpg",
- "T-Bar Row":"images/t-bar-row.jpg",
- "Tríceps Corda nos Cabos":"images/tricep-corda.jpg",
- "Rear Delt Flyes":"images/rear-delt-flyes.jpg",
- "Bíceps no banco a 60°":"images/bicep-banco.jpg",
- "Adutora":"images/adutora.jpg",
- "Hack Squat":"images/hack-squat.jpg",
- "Leg Press 45°":"images/leg-press-45.jpg",
- "Leg Extensions":"images/leg-extensions.jpg",
- "Leg Press Unilateral":"images/leg-press-unilateral.jpg",
- "Gémeos sentada":"images/gemeos-sentada.jpg",
- "Puxada Alta - Pega Neutra":"images/puxada-neutra.jpg",
- "Supino reto máquina":"images/supino-reto.jpg",
- "Leg Press Horizontal":"images/leg-press-horizontal.jpg",
- "Elevações Laterais":"images/elevacoes-laterais.jpg",
- "Leg Curl deitada":"images/leg-curl.jpg",
- "Tríceps na máquina com barra":"images/tricep-maquina.jpg",
- "Bíceps com barra":"images/bicep-barra.jpg"
-};
-
-let type=localStorage.lastType||"Upper - 1", idx=+(localStorage.idx||0), timer=null, seconds=60;
-function key(){return "session:"+new Date().toISOString().slice(0,10)+":"+type}
-function session(){return JSON.parse(localStorage.getItem(key())||"{}")}
-function saveSession(s){localStorage.setItem(key(),JSON.stringify(s))}
- function previousExercise(name){
-  let h=JSON.parse(localStorage.getItem("history")||"[]");
-
-  for(let workout of h){
-    let list=workouts[workout.type];
-    if(!list || !workout.data) continue;
-
-    let pos=list.findIndex(x=>x[0]===name);
-
-    if(pos>=0 && workout.data[pos] && workout.data[pos].sets){
-      let sets=workout.data[pos].sets.filter(x=>x && (x.kg || x.reps));
-
-      if(sets.length){
-        return {
-          date:workout.date,
-          sets:sets
-        };
-      }
-    }
-  }
-  return null;
-}
-function tabs(){
- let e=document.getElementById("tabs");e.innerHTML="";
- Object.keys(workouts).forEach(t=>{let b=document.createElement("button");b.className="tab "+(t==type?"active":"");b.textContent=t.replace(" - ","\n");b.onclick=()=>{type=t;idx=0;localStorage.lastType=t;localStorage.idx=0;render()};e.appendChild(b)})
-}
-function render(){
- tabs(); let app=document.getElementById("app"), list=workouts[type];
- if(idx>=list.length){app.innerHTML=`<div class="card done"><h2>✓ Treino concluído</h2><p>${type}</p><button class="btn reset" onclick="finish()">Guardar e terminar</button></div>`;return}
- let [name,sets,reps,note]=list[idx], s=session(), d=s[idx]||{};
- let rows="";
- for(let i=0;i<+sets;i++){let z=(d.sets||[])[i]||{};rows+=`<div class="set"><b>${i+1}</b><input inputmode="decimal" placeholder="kg" value="${z.kg||""}" onchange="upd(${i},'kg',this.value)"><input inputmode="numeric" placeholder="${reps}" value="${z.reps||""}" onchange="upd(${i},'reps',this.value)"><input class="check" type="checkbox" ${z.done?"checked":""} onchange="upd(${i},'done',this.checked);if(this.checked)startTimer()"></div>`}
- let img=exerciseImages[name] ? `<img class="exercise-img" src="${exerciseImages[name]}" alt="${name}" onerror="this.style.display='none'">` : "";
- app.innerHTML=`<div class="card"><div class="progress"><div style="width:${(idx/list.length)*100}%"></div></div><p class="small">Exercício ${idx+1} de ${list.length}</p><h2 class="exercise">${name}</h2><div class="target">${sets} séries × ${reps} repet
- ições</div>${note?`<p class="note">${note}</p>`:""}${img}<div class="labels"><span>Série</span><span>Carga (kg)</span><span>Reps</span><span>Feito</span></div>${rows}<div class="timer">Descanso: <strong id="clock">60</strong>s <button onclick="startTimer()">↻</button></div><div class="actions"><button class="btn prev" onclick="prev()">← Anterior</button><button class="btn next" onclick="next()">Seguinte →</button></div></div>`;
-}
-function upd(i,f,v){let s=session();s[idx]??={sets:[]};s[idx].sets??=[];s[idx].sets[i]??={};s[idx].sets[i][f]=v;saveSession(s)}
-function next(){idx++;localStorage.idx=idx;render()}
-function prev(){if(idx>0)idx--;localStorage.idx=idx;render()}
-function startTimer(){clearInterval(timer);seconds=60;let c=document.getElementById("clock");if(c)c.textContent=seconds;timer=setInterval(()=>{seconds--;let x=document.getElementById("clock");if(x)x.textContent=seconds;if(seconds<=0){clearInterval(timer);if(navigator.vibrate)navigator.vibrate([200,100,200])}},1000)}
-function finish(){let h=JSON.parse(localStorage.getItem("history")||"[]");h.unshift({date:new Date().toLocaleString("pt-PT"),type,data:session()});localStorage.setItem("history",JSON.stringify(h.slice(0,50)));localStorage.removeItem(key());idx=0;localStorage.idx=0;render()}
-function showHistory(){let h=JSON.parse(localStorage.getItem("history")||"[]");alert(h.length?h.map(x=>x.date+" — "+x.type).join("\n"):"Ainda não há treinos guardados.")}
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
-render();
-</script></body></html>
+.actions{display:grid;grid-template-columns:1fr 1.4fr;gap:10px;margin-top:20px}
+.btn{border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:800}
+.next{background:#16a34a;color:white}
+.prev{background:#e2e8f0}
+.timer{text-align:center;margin
+      
