@@ -1,4 +1,4 @@
-const C = 'treino-v3';
+const C = 'treino-v4';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
